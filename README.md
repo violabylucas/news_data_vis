@@ -2,6 +2,8 @@
 
 This repository analyses long-run changes in immigration framing by identifying recurring lexical patterns in news coverage and aggregating them over time. The aim is not to reduce an article to a single “true meaning,” but to create a systematic first-pass measure of how different rhetorical frames recur, intensify, or decline across years and across outlets.
 
+The analysis suggests that immigration coverage changes over time not only in intensity, but in the kinds of frames that dominate it. By tracing shifts between humanitarian, crisis, control, and integration language across outlets and years, the project highlights how media rhetoric helps shape the terms through which immigration becomes publicly understood, contested, and increasingly normalized through the language of borders, legality, and enforcement.
+
 ### 1. Unit of analysis
 
 The primary unit of analysis is the individual article. Each article is treated as one observation in the article-level dataset, while lexical matches are also aggregated by year and outlet to support longitudinal comparison.
@@ -228,3 +230,21 @@ This approach measures the presence and density of predefined lexical patterns, 
 Its strengths are transparency, reproducibility, and interpretability. Its limitations are that it may miss irony, paraphrase, implicit framing, and semantic nuance that does not use the expected keywords.
 
 For that reason, the strongest use of this dataset is not to treat lexical counts as the whole argument, but to use them to identify historical shifts, outlet differences, and periods that merit deeper qualitative analysis.
+
+## Insights
+
+The data shows that immigration coverage is not framed in one stable way across time. Instead, the relative weight of threat/crisis, control/legality, humanitarian, and integration/economy language shifts by year and by outlet, so the graph is best read as a measure of changing rhetorical emphasis rather than simple media attention.
+
+A clear overall pattern is that the Guardian is consistently more humanitarian in its framing, while the Telegraph shows a more mixed profile in which humanitarian language is more often rivalled by control/legality and, in some periods, by integration/economy language. This suggests that the two outlets are not only covering immigration at different intensities, but are also making it legible through different rhetorical priorities.
+
+One of the most important shared shifts appears in the mid-2010s, when threat/crisis language rises sharply in both outlets. Because the graph uses normalised per-million-word frequencies, this rise indicates that crisis language became denser within the coverage itself, not just that more immigration-related articles were published. This makes that period an important rhetorical breakpoint in the dataset.
+
+The later years, especially the 2020s, suggest a stronger normalization of control and legality framing. In the Telegraph in particular, recent coverage gives sustained prominence to the language of borders, enforcement, legality, and administrative control. The Guardian does not mirror this in the same way, but it still shows repeated spikes in threat/crisis language alongside a continued humanitarian emphasis.
+
+Another notable pattern is the relative weakening of the integration/economy frame over time. In both outlets, language focused on contribution, labour, services, and incorporation is comparatively stronger in the mid-2000s and early-to-mid 2010s than it is in much of the later series. This suggests that debates around migration become less centred on settlement and contribution, and more centred on crisis, regulation, and control.
+
+Taken together, the graph points to a broader rhetorical shift in how immigration is discussed in public discourse. Earlier coverage more often clusters around humanitarian need and, at times, social or economic incorporation, while later coverage gives greater space to crisis language and to the vocabulary of management, regulation, and legal control. This does not mean that every article is hostile, but it does suggest that coercive and border-oriented framings become more normalized over time.
+
+This matters for the wider project because it helps show how anti-migrant rhetoric is not only expressed through explicitly extreme language, but also through the normalization of administrative and legal frames. The hostile environment depends not just on law or policy, but on a discourse in which enforcement, exclusion, compliance, and border management come to appear ordinary, practical, and politically common-sense.
+
+At the same time, the persistence of humanitarian language — especially in the Guardian — shows that the rhetorical field remains contested rather than uniformly hardline. The value of the dataset is therefore not that it identifies one single media narrative, but that it maps an ongoing struggle between competing ways of defining immigration: as danger, as a matter of control, as a humanitarian issue, or as a question of social and economic incorporation. This makes the graph most useful as a bridge between distant reading and close reading, helping identify the periods, outlets, and frame shifts that merit deeper historical and qualitative analysis.
