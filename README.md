@@ -1,8 +1,31 @@
-## Methodology
+# Immigration Framing Analysis
 
 This repository analyses long-run changes in immigration framing by identifying recurring lexical patterns in news coverage and aggregating them over time. The aim is not to reduce an article to a single “true meaning,” but to create a systematic first-pass measure of how different rhetorical frames recur, intensify, or decline across years and across outlets.
 
-The analysis suggests that immigration coverage changes over time not only in intensity, but in the kinds of frames that dominate it. By tracing shifts between humanitarian, crisis, control, and integration language across outlets and years, the project highlights how media rhetoric helps shape the terms through which immigration becomes publicly understood, contested, and increasingly normalized through the language of borders, legality, and enforcement.
+Taken together, the analysis suggests that immigration coverage changes over time not only in intensity, but in the kinds of frames that dominate it. By tracing shifts between humanitarian, crisis, control, and integration language across outlets and years, the project highlights how media rhetoric helps shape the terms through which immigration becomes publicly understood, contested, and increasingly normalized through the language of borders, legality, and enforcement.
+
+## Contents
+
+- [Methodology](#methodology)
+  - [1. Unit of analysis](#1-unit-of-analysis)
+  - [2. Text used for analysis](#2-text-used-for-analysis)
+  - [3. Data collection and scraping](#3-data-collection-and-scraping)
+  - [4. Frame families](#4-frame-families)
+    - [threat_crisis](#threat_crisis)
+    - [control_legality](#control_legality)
+    - [humanitarian](#humanitarian)
+    - [integration_economy](#integration_economy)
+  - [5. Lexical matching strategy](#5-lexical-matching-strategy)
+  - [6. Why normalized frequencies are used](#6-why-normalized-frequencies-are-used)
+  - [7. Why KWIC is necessary](#7-why-kwic-is-necessary)
+  - [8. Article-level interpretation](#8-article-level-interpretation)
+  - [9. Cleaning and quality control](#9-cleaning-and-quality-control)
+  - [10. Interpretation rule](#10-interpretation-rule)
+  - [11. Recommended validation](#11-recommended-validation)
+  - [12. Limits of the method](#12-limits-of-the-method)
+- [Insights](#insights)
+
+## Methodology
 
 ### 1. Unit of analysis
 
@@ -53,7 +76,6 @@ Where relevant, cleaning should be documented in the repository as explicitly as
 The analysis uses four predeclared lexical frame families. These are not full semantic categories in the abstract, but operational dictionaries: grouped terms and phrases that signal recurring ways of talking about immigration.
 
 The four families are:
-
 - **threat_crisis**
 - **control_legality**
 - **humanitarian**
@@ -156,7 +178,7 @@ At the same time, lexical matching is not equivalent to full discourse interpret
 
 ### 6. Why normalized frequencies are used
 
-Raw counts are useful descriptively, but they are not sufficient for comparison across years or outlets because the volume of available text can vary substantially. Some years contain many more articles and many more words than others. The yearly summary tables therefore report both raw hits and per-million-word rates for each frame family. [file:383][file:385]
+Raw counts are useful descriptively, but they are not sufficient for comparison across years or outlets because the volume of available text can vary substantially. Some years contain many more articles and many more words than others. The yearly summary tables therefore report both raw hits and per-million-word rates for each frame family.
 
 The normalization formula is:
 
@@ -237,7 +259,7 @@ The data shows that immigration coverage is not framed in one stable way across 
 
 A clear overall pattern is that the Guardian is consistently more humanitarian in its framing, while the Telegraph shows a more mixed profile in which humanitarian language is more often rivalled by control/legality and, in some periods, by integration/economy language. This suggests that the two outlets are not only covering immigration at different intensities, but are also making it legible through different rhetorical priorities.
 
-One of the most important shared shifts appears in the mid-2010s, when threat/crisis language rises sharply in both outlets. Because the graph uses normalised per-million-word frequencies, this rise indicates that crisis language became denser within the coverage itself, not just that more immigration-related articles were published. This makes that period an important rhetorical breakpoint in the dataset.
+One of the most important shared shifts appears in the mid-2010s, when threat/crisis language rises sharply in both outlets. Because the graph uses normalized per-million-word frequencies, this rise indicates that crisis language became denser within the coverage itself, not just that more immigration-related articles were published. This makes that period an important rhetorical breakpoint in the dataset.
 
 The later years, especially the 2020s, suggest a stronger normalization of control and legality framing. In the Telegraph in particular, recent coverage gives sustained prominence to the language of borders, enforcement, legality, and administrative control. The Guardian does not mirror this in the same way, but it still shows repeated spikes in threat/crisis language alongside a continued humanitarian emphasis.
 
