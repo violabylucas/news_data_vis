@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Frame comparison over time</title>
+  <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #ffffff;
+      color: #111111;
+    }
+
+    .page {
+      width: 100%;
+      min-height: 100vh;
+      padding: 20px 24px 16px;
+    }
+
+    #chart {
+      width: 100%;
+      height: 84vh;
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div id="chart"></div>
+  </div>
+
+  <script>
+    async function loadCSV(path) {
+      const res = await fetch(path);
+      const text = await res.text();
+      const rows = text.trim().split("\n").map(row => row.split(","));
+      const headers = rows[0];
+      return rows.slice(1).map(row => {
+        const obj = {};
+        headers.forEach((h, i) => obj[h] = row[i]);
+        return obj;
+      });
+    }
+
+    function toRoundedNumber(value) {
+      return value === undefined || value === null || value === ""
+        ? null
+        : Math.round(+value);
+    }
+
+    function prepData(rows) {
+      return rows
+        .map(d => ({
+          year: +d.year,
+          threat: toRoundedNumber(d.threat_crisis_per_million_words),
+          control: toRoundedNumber(d.control_legality_per_million_words),
+          humanitarian: toRoundedNumber(d.humanitarian_per_million_words),
+          integration: toRoundedNumber(d.integration_economy_per_million_words)
+        }))
+        .sort((a, b) => a.year - b.year);
+    }
+
+    function hexToRgb(hex) {
+      const clean = hex.replace("#", "");
+      const bigint = parseInt(clean, 16);
+      const r = (bigint >> 16) & 255;
+      const g = (bigint >> 8) & 255;
+      const b = bigint & 255;
+      return { r, g, b };
+    }
+
+    function rgba(hex, alpha) {
+      const { r, g, b } = hexToRgb(hex);
+      return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+    }
+
+    async function makeChart() {
+      const guardianRaw = await loadCSV("./guardian_yearly_frame_summary.csv");
+      const telegraphRaw = await loadCSV("./telegraph_yearly_frame_summary.csv");
+
+      const guardian = prepData(guardianRaw);
+      const telegraph = prepData(telegraphRaw);
+
+      const allYears = [...new Set(
+        [...guardian.map(d => d.year), ...telegraph.map(d => d.year)]
+      )].sort((a, b) => a - b);
+
+      const frames = [
+        { key: "threat", label: "Threat & Crisis", color: "#d73027" },
+        { key: "control", label: "Control & Legality", color: "#4575b4" },
+        { key: "humanitarian", label: "Humanitarian", color: "#1a9850" },
+        { key: "integration", label: "Integration & Economy", color: "#984ea3" }
+      ];
+
+      const guardianAlpha = 0.5;
+      const telegraphAlpha = 1;
+
+      const data = [];
+
+      frames.forEach(frame => {
+        data.push({
+          x: guardian.map(d => d.year),
+          y: guardian.map(d => d[frame.key]),
+          mode: "lines+markers",
+          name: `Guardian — ${frame.label}`,
+          line: {
+            color: rgba(frame.color, guardianAlpha),
+            width: 4,
+            dash: "solid"
+          },
+          marker: {
+            color: rgba(frame.color, guardianAlpha),
+            size: 7,
+            symbol: "circle"
+          },
+          hovertemplate:
+            "<b>Guardian</b><br>" +
+            "Frame: " + frame.label + "<br>" +
+            "Year: %{x}<br>" +
+            "Per million: %{y:,}<extra></extra>",
+          visible: false
+        });
+
+        data.push({
+          x: telegraph.map(d => d.year),
+          y: telegraph.map(d => d[frame.key]),
+          mode: "lines+markers",
+          name: `Telegraph — ${frame.label}`,
+          line: {
+            color: rgba(frame.color, telegraphAlpha),
+            width: 4,
+            dash: "solid"
+          },
+          marker: {
+            color: rgba(frame.color, telegraphAlpha),
+            size: 7,
+            symbol: "circle"
+          },
+          hovertemplate:
+            "<b>Telegraph</b><br>" +
+            "Frame: " + frame.label + "<br>" +
+            "Year: %{x}<br>" +
+            "Per million: %{y:,}<extra></extra>",
+          visible: false
+        });
+      });
+
+      function visibleForSingleFrame(frameKey) {
+        return frames.flatMap(frame => {
+          const isActive = frame.key === frameKey;
+          return [isActive, isActive];
+        });
+      }
+
+      function visibleForAllFrames() {
+        return new Array(data.length).fill(true);
+      }
+
+      data.forEach((trace, i) => {
+        data[i].visible = visibleForAllFrames()[i];
+      });
+
+      const buttons = [
+        {
+          label: "All frames",
+          method: "update",
+          args: [
+            { visible: visibleForAllFrames() },
+            {
+              title: {
+                text: "All frames over time",
+                x: 0.02,
+                xanchor: "left",
+                font: {
+                  family: 'monospace',
+                  size: 32,
+                  color: "#111111"
+              }
+            }
+          }
+          ]
+        },
+        ...frames.map(frame => ({
+          label: frame.label,
+          method: "update",
+          args: [
+            { visible: visibleForSingleFrame(frame.key) },
+            {
+              title: {
+                text: frame.label + " over time",
+                x: 0.07,
+                xanchor: "left",
+                font: {
+                  family: 'monospace',
+                  size: 32,
+                  color: "#111111"
+              }
+            }
+            }
+          ]
+        }))
+      ];
+
+      const layout = {
+        title: {
+          text: "All frames over time",
+          x: 0.07,
+          xanchor: "left",
+          font: {
+          family: 'monospace',
+          size: 32,
+          color: "#111111"
+        }
+        },
+        paper_bgcolor: "#ffffff",
+        plot_bgcolor: "#ffffff",
+        margin: {
+          t: 170,
+          r: 40,
+          b: -10,
+          l: 85
+        },
+        height: window.innerHeight * 0.84,
+        hovermode: "closest",
+        xaxis: {
+          title: "Year",
+          tickmode: "array",
+          tickvals: allYears,
+          ticktext: allYears.map(String),
+          tickangle: -45,
+          showgrid: true,
+          gridcolor: "#e8e8e8",
+          zeroline: false
+        },
+        yaxis: {
+          title: "Per million words",
+          tickformat: ",d",
+          showgrid: true,
+          gridcolor: "#e8e8e8",
+          zeroline: false
+        },
+        legend: {
+          orientation: "h",
+          yanchor: "top",
+          borderwidth: 0.7,
+          traceorder: "grouped",
+          tracegroupgap: 50,
+          bgcolor: "#f5f5f5",
+          bordercolor: "#111111",
+          x: 0,
+          y: -0.15
+        },
+        font: {
+          family: '"Segoe UI", Tahoma, Geneva, Verdana, sans-serif',
+          size: 12,
+          color: "#111111"
+        },
+        updatemenus: [
+        {
+          type: "dropdown",
+          x: 1,
+          y: 1.15,
+          xanchor: "right",
+          yanchor: "top",
+          showactive: true,
+          active: 0,
+          buttons
+        }
+      ]
+      };
+
+      Plotly.newPlot("chart", data, layout, {
+        responsive: true,
+        displayModeBar: false
+      });
+
+      window.addEventListener("resize", () => {
+        Plotly.relayout("chart", {
+          height: window.innerHeight * 0.84
+        });
+      });
+    }
+
+    makeChart();
+  </script>
+</body>
+</html>
