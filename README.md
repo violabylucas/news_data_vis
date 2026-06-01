@@ -4,7 +4,8 @@ This repository analyses long-run changes in immigration framing by identifying 
 
 Taken together, the analysis suggests that immigration coverage changes over time not only in intensity, but in the kinds of frames that dominate it. By tracing shifts between humanitarian, crisis, control, and integration language across outlets and years, the project highlights how media rhetoric helps shape the terms through which immigration becomes publicly understood, contested, and increasingly normalized through the language of borders, legality, and enforcement.
 
-## Contents
+<details>
+<summary>Contents</summary>
 
 - [Methodology](#methodology)
   - [1. Unit of analysis](#1-unit-of-analysis)
@@ -24,6 +25,8 @@ Taken together, the analysis suggests that immigration coverage changes over tim
   - [11. Recommended validation](#11-recommended-validation)
   - [12. Limits of the method](#12-limits-of-the-method)
 - [Insights](#insights)
+
+</details>
 
 ## Methodology
 
